@@ -5,6 +5,8 @@ link do overleaf com a doc provisória:
 https://www.overleaf.com/project/69850e0b3ed4867cd1915cac
 
 link do draw.io:
-https://drive.google.com/file/d/19P7n8HH2ntk0AozeMG-ax0MThreavw5b/view?usp=sharing
+
+* Diagrama Geral: https://drive.google.com/file/d/19P7n8HH2ntk0AozeMG-ax0MThreavw5b/view?usp=sharing
+* Fluxograma do Sistema: https://app.diagrams.net/#G1lBIXfRnp0AMUoXh9VU9wFyvFj2jhZB6u#%7B%22pageId%22%3A%22SKCNiIy7pvsI1ocINuwh%22%7D
 
 
