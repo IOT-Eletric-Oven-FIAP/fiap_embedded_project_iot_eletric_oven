@@ -1,0 +1,129 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Pacotes de codificação, idioma e GRÁFICOS
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{graphicx} % Obrigatório para imagens
+
+% --- CONFIGURAÇÃO DE CORES (VERMELHO E PRETO) ---
+\definecolor{MyBlack}{RGB}{10, 10, 10}      
+\definecolor{MyDarkGray}{RGB}{30, 30, 30}   
+\definecolor{MyRed}{RGB}{220, 20, 60}       
+\definecolor{MyWhite}{RGB}{240, 240, 240}   
+
+\setbeamercolor{background canvas}{bg=MyBlack}
+\setbeamercolor{normal text}{fg=MyWhite}
+\setbeamercolor{frametitle}{fg=MyRed, bg=MyDarkGray}
+\setbeamercolor{title}{fg=MyRed}
+\setbeamercolor{subtitle}{fg=MyWhite} 
+\setbeamercolor{author}{fg=MyWhite}    
+\setbeamercolor{item}{fg=MyRed}
+\setbeamercolor{subitem}{fg=MyRed}
+
+\setbeamertemplate{navigation symbols}{}
+
+% --- DADOS DA CAPA ---
+\title{Forno Elétrico IoT}
+\subtitle{Requisitos Técnicos e Proposta de Valor}
+
+% Nomes dos participantes
+\author{
+	Helton Abadia \\
+	Manassés Oiola \\
+	Matheus Grossi \\
+	Talles Mello
+}
+
+\titlegraphic{
+	\centering
+	% Certifique-se de ter o arquivo logo_fiap.png na pasta
+	\includegraphics[width=4cm]{logo_fiap.png}
+}
+
+\date{\today}
+
+\begin{document}
+	
+	% --- SLIDE 1: CAPA ---
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% --- SLIDE 2: ARQUITETURA ---
+	\begin{frame}{Arquitetura}
+		\centering
+		% Certifique-se de ter o arquivo mapa.png na pasta
+		\includegraphics[width=0.9\textwidth, height=0.8\textheight, keepaspectratio]{mapa.png}
+	\end{frame}
+	
+	% --- SLIDE 3: REQUISITOS (HARDWARE) ---
+	\begin{frame}{Requisitos – Hardware e Interface}
+		\begin{itemize}
+			\item \textbf{Sensoriamento:} \\
+			Uso de NTC para medir a temperatura interna do forno.
+			
+			\vspace{0.6cm} 
+			
+			\item \textbf{Controle de potência:} \\
+			Ponte H driver de potência acionada por PWM para ajuste proporcional da energia aplicada.
+			
+			\vspace{0.6cm}
+			
+			\item \textbf{Interface local:} \\
+			Display TFT exibindo temperatura, potência e estado (ligado/desligado).
+		\end{itemize}
+	\end{frame}
+	
+	% --- SLIDE 4: REQUISITOS (CONECTIVIDADE) ---
+	\begin{frame}{Requisitos – Conectividade e Nuvem}
+		\begin{itemize}
+			\item \textbf{Conectividade:} \\
+			Envio de dados via MQTT e HTTP REST para plataformas Ubidots e ThingSpeak. Broker MQTT será utilizado somente para testes ou algum acionamento.
+			
+			\vspace{0.5cm}
+			
+			\item \textbf{Dashboards na nuvem:} \\
+			Monitoramento remoto de tempo, temperatura e potência, além de comandos de controle.
+			
+			\vspace{0.5cm}
+			
+		\end{itemize}
+	\end{frame}
+	
+	% --- SLIDE 5: VALOR AGREGADO (EFICIÊNCIA) ---
+	\begin{frame}{Valor Agregado – Monitoramento e Segurança}
+		\begin{itemize}
+			\item \textbf{Monitoramento remoto em tempo real:} \\
+			O cliente acompanha a temperatura, tempo de uso e programado (timer) e estado do forno de qualquer lugar.
+			
+			\vspace{0.5cm}
+			
+			\item \textbf{Controle inteligente de potência:} \\
+			Maior eficiência energética e redução de custos operacionais.
+			
+			\vspace{0.5cm}
+			
+		\end{itemize}
+	\end{frame}
+	
+	% --- SLIDE 6: VALOR AGREGADO (EXPERIÊNCIA) ---
+	\begin{frame}{Valor Agregado – Experiência e Mercado}
+		\begin{itemize}
+			\item \textbf{Interface amigável:} \\
+			Display local e dashboards intuitivos facilitam o uso e a tomada de decisão.
+			
+			\vspace{0.5cm}
+			
+			\item \textbf{Dados históricos e análises:} \\
+			Relatórios de desempenho permitem otimizar processos e prever padrões de uso.
+			
+			\vspace{0.5cm}
+			
+			\item \textbf{Inovação e diferenciação:} \\
+			Agrega valor ao produto, tornando-o mais competitivo no mercado de eletrodomésticos inteligentes.
+		\end{itemize}
+	\end{frame}
+	
+\end{document}

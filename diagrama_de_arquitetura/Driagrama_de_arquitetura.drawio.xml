@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.8">
+  <diagram name="Page-1" id="ELeOi7qPT3MCGRa-OrDq">
+    <mxGraphModel dx="1088" dy="607" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-5" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="MCU (ESP32)" vertex="1">
+          <mxGeometry height="90" width="170" x="300" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-6" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="YP57LA-YDz-DqGYk3Yy0-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Sensor de Temperatura" vertex="1">
+          <mxGeometry height="60" width="120" x="100" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-4" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;size=0.08333333333333333;" value="Driver de potênia" vertex="1">
+          <mxGeometry height="60" width="110" x="550" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-7" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="WI-FI" vertex="1">
+          <mxGeometry height="60" width="240" x="265" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-8" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="340" y="270" as="sourcePoint" />
+            <mxPoint x="340" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-9" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="424" y="330" as="sourcePoint" />
+            <mxPoint x="424" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-11" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="YP57LA-YDz-DqGYk3Yy0-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-10" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="MQTT" vertex="1">
+          <mxGeometry height="60" width="120" x="560" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-20" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="YP57LA-YDz-DqGYk3Yy0-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-12" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="HTTP" vertex="1">
+          <mxGeometry height="60" width="120" x="305" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-13" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="370" y="210" as="sourcePoint" />
+            <mxPoint x="370" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-14" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="350" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-18" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="YP57LA-YDz-DqGYk3Yy0-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-15" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="Thingspeak" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-17" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="YP57LA-YDz-DqGYk3Yy0-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-16" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="Ubidots" vertex="1">
+          <mxGeometry height="60" width="120" x="150" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YP57LA-YDz-DqGYk3Yy0-19" edge="1" parent="1" source="YP57LA-YDz-DqGYk3Yy0-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.452;entryY=1.012;entryDx=0;entryDy=0;entryPerimeter=0;" target="YP57LA-YDz-DqGYk3Yy0-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
