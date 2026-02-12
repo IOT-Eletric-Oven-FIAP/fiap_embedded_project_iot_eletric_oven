@@ -12,8 +12,6 @@ Implementar um **forno IoT** (simulado no Wokwi) com:
 
 Além disso, o firmware publica telemetria via **MQTT** para consumo em um dashboard (Ubidots).
 
-> **Mudança de escopo:** este projeto **não é mais** uma automação residencial. As funções de **detecção de gás** e **automação de luzes** foram removidas.
-
 ---
 
 link do overleaf com a [doc provisória](https://www.overleaf.com/project/69850e0b3ed4867cd1915cac)
