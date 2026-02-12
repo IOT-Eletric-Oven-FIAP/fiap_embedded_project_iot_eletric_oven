@@ -89,7 +89,7 @@ Arquitetura (alto nível):
 
 | **Item** | **Imagem** | **Link referêcia** |
 | :--- | :---: | :---: |
-| **ESP32-S3-DEVKITC-1-N8R8** | ![ESP32-S3-DEVKITC-1-N8R8](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/tree/main/images/1.esp32.png) | [Link-1](https://www.digikey.com.br/en/products/detail/espressif-systems/ESP32-S3-DEVKITC-1-N8R8/15295894) |
+| **ESP32-S3-DEVKITC-1-N8R8** | ![ESP32-S3-DEVKITC-1-N8R8](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/blob/main/images/1.esp32.png) | [Link-1](https://www.digikey.com.br/en/products/detail/espressif-systems/ESP32-S3-DEVKITC-1-N8R8/15295894) |
 | **Display LCD 20x4** | ![Display LCD 20x4](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/tree/main/images/2.display.jpg) | [Link-2](https://www.usinainfo.com.br/display-arduino/display-lcd-20x4-com-fundo-azul-2727.html?srsltid=AfmBOoo_T0yx8DeO8kDobWg-LXnzvC8cdNzDUk0HhwmnHMre7m4wweJD) |
 | **Sensor de temperatura NTC-10K** | ![Sensor de temperatura NTC-10K](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/tree/main/images/3.sensor_de_temperatura.png) | [Link-3](https://www.arducore.com.br/modulo-sensor-de-temperatura-ntc?srsltid=AfmBOoq0kWVqQLXZ2cuCdpVPkEVKR5jUI-C0HkQP3z2ZFlozv6QAMyRD) |
 | **Push-Button** | ![Push-Button](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/tree/main/images/4.push_button.png) | [Link-4](https://www.eletrogate.com/push-button-chave-tactil-6x6x6mm?srsltid=AfmBOop5mCOiH2MCIOyZxYxCbOE5eBJbDxK-dSsRCbRR-rpGESQx8RGx) |
