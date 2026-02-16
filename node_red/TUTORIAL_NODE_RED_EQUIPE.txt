@@ -1,0 +1,98 @@
+TUTORIAL – COMO USAR O NODE-RED DO PROJETO FORNO IoT
+
+INSTALAR NODE-RED (caso não tenha)
+
+Instalar o Node.js:
+https://nodejs.org
+
+Após instalar, abrir o terminal (Prompt ou PowerShell) e executar:
+
+npm install -g --unsafe-perm node-red
+
+Iniciar o Node-RED:
+
+node-red
+
+Abrir no navegador:
+
+http://localhost:1880
+
+IMPORTAR O FLUXO DO PROJETO
+
+Abrir o Node-RED no navegador.
+
+Clicar no menu (canto superior direito).
+
+Selecionar "Importar".
+
+Clicar em "Selecionar arquivo".
+
+Ir até o projeto clonado.
+
+Abrir a pasta:
+
+node_red
+
+Selecionar o arquivo:
+
+node-red-forno-equipe.json
+
+Clicar em "Importar".
+
+Clicar em "Deploy".
+
+O fluxo completo será carregado automaticamente.
+
+CONFIGURAR UBIDOTS
+
+É necessário alterar o Token individual de cada membro da equipe.
+
+Passos:
+
+Dar dois cliques no nó chamado:
+
+HTTP-Ubidots
+
+Em "Cabeçalhos", localizar:
+
+X-Auth-Token
+
+Substituir o valor pelo TOKEN pessoal do Ubidots.
+
+Clicar em "Feito".
+
+Clicar em "Deploy".
+
+CONFIGURAR THINGSPEAK
+
+É necessário alterar a Write API Key.
+
+Passos:
+
+Dar dois cliques no nó chamado:
+
+function 1
+
+Localizar a linha:
+
+var apiKey = "SUA_API_KEY_AQUI";
+
+Substituir pelo valor da Write API Key do canal ThingSpeak.
+
+Clicar em "Feito".
+
+Clicar em "Deploy".
+
+MQTT
+
+O ESP publica no tópico:
+
+equipeX/forno/status
+
+Não é necessário alterar o código do ESP.
+Não é necessário alterar o broker MQTT.
+Somente ajustar:
+
+Token do Ubidots
+
+API Key do ThingSpeak
