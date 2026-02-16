@@ -1,4 +1,5 @@
 #include "wifi_con.h"
+#include "mqtt.h"
 #include "http.h"
 #include "tft.h"
 
@@ -8,7 +9,7 @@ const char* password = "";
 
 // ========= DEFINIÇÃO DOS PINOS (HARDWARE) =========
 #define NTC_PIN 12
-#define POT_PIN 11
+#define POT_PIN 1
 #define LED_PIN 14
 #define BTN_PIN 4
 
@@ -29,17 +30,37 @@ unsigned long lastTft = 0;
 
 // ========= FUNÇÃO: LEITURA DOS SENSORES =========
 float lerTemperatura() {
-  return map(analogRead(NTC_PIN), 0, 4095, 20, 300);
+  
+  static float tempSimulada = 25.0;
+
+  if (resistencia) {
+    tempSimulada += 0.5;  // aquece
+  } else {
+    tempSimulada -= 0.2;  // esfria lentamente
+  }
+
+  if (tempSimulada < 20) tempSimulada = 20;
+  if (tempSimulada > 300) tempSimulada = 300;
+
+  return tempSimulada;
 }
 
 // ========= FUNÇÃO: LÓGICA DO TERMOSTATO =========
 void controlarForno() {
-  if (!fornoLigado) {
+   if (!fornoLigado || setpoint == 0) {
     resistencia = false;
-  } else {
-    if (temperatura < setpoint - histerese) resistencia = true;
-    if (temperatura > setpoint + histerese) resistencia = false;
+  } 
+  else {
+
+    if (setpoint > temperatura + histerese) {
+      resistencia = true;
+    }
+
+    if (setpoint <= temperatura) {
+      resistencia = false;
+    }
   }
+
   digitalWrite(LED_PIN, resistencia);
 }
 
@@ -70,49 +91,64 @@ void setup() {
   delay(2000);
   tftShowReadyScreen();
 
-  // WiFi + HTTP
+  // WiFi + MQTT + HTTP
   wifiInit(ssid, password);
+  mqttInit();
   httpInit();
 }
 
 // ========= LOOP =========
 void loop() {
+
+  mqttLoop();
+
+  unsigned long tempoAtual = millis();
+
   bool estadoAtualBotao = digitalRead(BTN_PIN);
-  Serial.print("Botao: ");
-Serial.println(digitalRead(BTN_PIN));
-delay(200);
 
-
+  // Detecta clique (borda de descida)
   if (estadoAtualBotao == LOW && estadoAnteriorBotao == HIGH) {
     fornoLigado = !fornoLigado;
+
+    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
 
     if (fornoLigado) {
       Serial.println("SISTEMA LIGADO");
     } else {
       Serial.println("SISTEMA DESLIGADO");
-      enviarTelemetria();
     }
-    delay(150);
+
+    delay(50); // debounce leve
   }
+
   estadoAnteriorBotao = estadoAtualBotao;
 
+  // Leitura sensores
   temperatura = lerTemperatura();
-  delay(1500);
+  int leituraPot = analogRead(POT_PIN);
 
-  setpoint = map(analogRead(POT_PIN), 0, 4095, 50, 250);
+  if (leituraPot < 100) { 
+    setpoint = 0; 
+  } else {
+    setpoint = map(leituraPot, 0, 4095, 0, 250);
+  }
+
   controlarForno();
 
-  unsigned long tempoAtual = millis();
-
-  // TFT 1 Hz
+  // Atualiza TFT 1 Hz
   if (tempoAtual - lastTft >= 1000) {
     lastTft = tempoAtual;
     tftUpdateStatus((int)temperatura, (int)setpoint, fornoLigado, resistencia, wifiConnected());
   }
 
-  // Envio periódico (quando ligado)
-  if (fornoLigado && (tempoAtual - ultimoEnvio >= intervalo)) {
+  // Envio periódico MQTT + HTTP a cada 2s
+  if (tempoAtual - ultimoEnvio >= intervalo) {
     ultimoEnvio = tempoAtual;
-    enviarTelemetria();
+
+    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
+
+    if (fornoLigado) {
+      enviarTelemetria();
+    }
   }
 }
