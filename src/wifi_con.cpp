@@ -1,4 +1,5 @@
-#include "wifi.h"
+#include "wifi_con.h"
+#include <WiFi.h>
 #include <Arduino.h>
 
 void wifiInit(const char* ssid, const char* password) {
