@@ -40,22 +40,16 @@ Para dúvidas, comentários ou sugestões:
 ## Objetivo?
 <div align="justify">
 <br>
-•    Criar um canal no ThingSpeak com 2 a 4 campos (livre definição).
+O sistema simula um **forno com conectividade IoT**. O ESP32:
 
-•    Configurar no Wokwi um streaming MQTT que publique mensagens (Dados de sensores, etc) no broker.
+1. Lê a **temperatura** do NTC.
+2. Lê o **potenciômetro** (referência do usuário), que pode ser usado como:
+   - **setpoint** (temperatura-alvo), ou
+   - **potência/PWM** diretamente (duty cycle).
+3. Com o forno habilitado pelo **botão**, calcula a saída e aciona o **LED** (representando a resistência).
+4. Publica periodicamente os dados via MQTT (ex.: temperatura, referência, estado do forno e saída).
+5. Exibe informações no **display** (a integrar no circuito).
 
-•    No ThingSpeak, usar Write API Key para configurar ingestão/consumo do tópico MQTT publicado no Broker (via integração, MQTT fields update, ou método aceito pela plataforma).
-
-•    Verificar se os dados estão chegando no histórico do canal (gráficos e painéis).
-
-•    Realizar testes de envio e recepção de mensagem no broker MQTT e confirmar latência/estabilidade em 1 captura de log/cliente MQTT.
-
-•    Preencher o README simples no mesmo arquivo com orientações de funcionamento
-
-- Criar uma documentação adequada mostrando um rascunho simples da arquitetura, objetivo do projeto, descrição geral do sistema, explicação de cada componente, seu fluxo de interação entre eles, descrição das variaveis de publicação e subscrição e conclusoes. Faça um documento formal com capa, titulo, indices, etc.
-
-- Fazer um pequeno video de poucos minutos mostrando o funcionamento dos sistemas, pode usar captura de tela.
----
 ## Índice:
 
 1. [Descrição do projeto](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/tree/main?tab=readme-ov-file#1-descri%C3%A7%C3%A3o-do-projeto)
@@ -72,11 +66,9 @@ Para dúvidas, comentários ou sugestões:
 ---
 ## 1. Descrição do projeto:
 
-Este trabalho se objetivou a criação de um sistema robusto de IOT para interface de um Supermercado, permitindo que possamos ter um controle das luzes da área externa de modo intertravado, permitindo o acionamento por botões, pelo dashboard, ou ainda, de maneira autônoma pela leitura do sensor de luz.
+Este trabalho se objetivou a criação de um sistema de forno elétrico IOT;
 
-A medição de gases tóxicos/perigosos no setor de panificação, permitindo que possamos indentificar um possível vazamento de gás antes que o mesmo se alastre, provocando uma catastrófe.
-
-Implementação de um broker MQTT que centraliza nossos dados e ainda fornece um dashboard.
+Implementação de um broker que centraliza nossos dados e ainda fornece um dashboard.
 
 Desenvolvimento de uma IHM à partir do display LCD 320x240 - IL9341, simplificando a centralização visual de nossos dados.
 
