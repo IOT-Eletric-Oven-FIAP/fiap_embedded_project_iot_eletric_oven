@@ -229,29 +229,16 @@ Em nosso projeto, foi adotado o seguinte mapa de conexões:
 
 | **Pino** | **Função** |
 | :---: | :--- |
-| GPIO 11 | Entrada Digital: Sensor de Gás 1 (MQ — saída digital, ativo em LOW) |
-| GPIO 12 | Entrada Digital: Sensor de Gás 2 (MQ — saída digital, ativo em LOW) |
-| GPIO 13 | Entrada Digital: Sensor de Gás 3 (MQ — saída digital, ativo em LOW) |
-| GPIO 14 | Entrada Digital: Sensor de Gás 4 (MQ — saída digital, ativo em LOW) |
-| GPIO 9 | Entrada Digital: Sensor de Luminosidade (LDR) 1 |
-| GPIO 46 | Entrada Digital: Sensor de Luminosidade (LDR) 2 |
-| GPIO 3 | Entrada Digital: Sensor de Luminosidade (LDR) 3 |
-| GPIO 10 | Entrada Digital: Sensor de Luminosidade (LDR) 4 |
-| GPIO 16 | Saída Digital: Relé 1 |
-| GPIO 17 | Saída Digital: Relé 2 |
-| GPIO 18 | Saída Digital: Relé 3 |
-| GPIO 8 | Saída Digital: Relé 4 |
-| GPIO 7 | Entrada Digital: Botão 1 (latch) |
-| GPIO 6 | Entrada Digital: Botão 2 (latch) |
-| GPIO 5 | Entrada Digital: Botão 3 (latch) |
-| GPIO 4 | Entrada Digital: Botão 4 (latch) |
-| GPIO 2 | Saída Digital: Sirene/Alarme de Gás |
-| GPIO 42 | Saída Digital (SPI): TFT - CS |
-| GPIO 40 | Saída Digital (SPI): TFT - DC |
-| GPIO 41 | Saída Digital (SPI): TFT - RST |
+| GPIO 4 | Entrada Digital: Push-Button |
+| GPIO 11 | Entrada Analógica: Sensor de temperatura NTC |
+| GPIO 12 | Entrada Analógica: Potenciometro |
+| GPIO 14 | Saída Digital: Controle PWM |
+| GPIO 36 | Entrada Digital (SPI): TFT - MISO |
 | GPIO 38 | Saída Digital (SPI): TFT - SCK |
 | GPIO 39 | Saída Digital (SPI): TFT - MOSI |
-| GPIO 36 | Entrada Digital (SPI): TFT - MISO |
+| GPIO 40 | Saída Digital (SPI): TFT - DC |
+| GPIO 41 | Saída Digital (SPI): TFT - RST |
+| GPIO 42 | Saída Digital (SPI): TFT - CS |
 
 <div align="justify">
 
@@ -273,7 +260,7 @@ Essa é a representação visual das conexões:
 | :--- |
 | O 1º estágio do boot transiciona para uma breve tela exibindo "Display inicializado"|
 |![Ope_tel_1](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/blob/main/images/ope_tel_1.png)|
-| O 2º estágio do boot apresenta rapidamente o escopo de projeto e exibe o nome do projetista.|
+| O 2º estágio do boot apresenta rapidamente o escopo de projeto e exibe os nomes dos integrantes da equipe.|
 |![Ope_tel_2](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/blob/main/images/ope_tel_2.png)|
 | O 3º estágio do boot demonstra os organizadores do curso.|
 |![Ope_tel_3](https://github.com/IOT-Eletric-Oven-FIAP/fiap_embedded_project_iot_eletric_oven/blob/main/images/ope_tel_3.png)|
