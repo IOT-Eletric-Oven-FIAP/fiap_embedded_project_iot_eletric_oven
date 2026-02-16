@@ -10,7 +10,7 @@ const char* password = "";
 #define NTC_PIN 12
 #define POT_PIN 11
 #define LED_PIN 14
-#define BTN_PIN 27
+#define BTN_PIN 4
 
 // ========= VARIÁVEIS DE CONTROLE DO SISTEMA =========
 float temperatura = 0;
