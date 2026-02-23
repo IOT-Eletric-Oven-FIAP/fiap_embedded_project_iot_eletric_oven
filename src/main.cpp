@@ -1,5 +1,5 @@
-#include "wifi.h"
-#include "http.h"
+#include "wifi_con.h"
+#include "mqtt.h"
 #include "tft.h"
 
 // ========= CONFIGURAÇÕES DE REDE =========
@@ -8,7 +8,7 @@ const char* password = "";
 
 // ========= DEFINIÇÃO DOS PINOS (HARDWARE) =========
 #define NTC_PIN 12
-#define POT_PIN 11
+#define POT_PIN 1
 #define LED_PIN 14
 #define BTN_PIN 4
 
@@ -29,30 +29,38 @@ unsigned long lastTft = 0;
 
 // ========= FUNÇÃO: LEITURA DOS SENSORES =========
 float lerTemperatura() {
-  return map(analogRead(NTC_PIN), 0, 4095, 20, 300);
+  
+  static float tempSimulada = 25.0;
+
+  if (resistencia) {
+    tempSimulada += 0.5;
+  } else {
+    tempSimulada -= 0.2;
+  }
+
+  if (tempSimulada < 20) tempSimulada = 20;
+  if (tempSimulada > 300) tempSimulada = 300;
+
+  return tempSimulada;
 }
 
 // ========= FUNÇÃO: LÓGICA DO TERMOSTATO =========
 void controlarForno() {
-  if (!fornoLigado) {
+  if (!fornoLigado || setpoint == 0) {
     resistencia = false;
-  } else {
-    if (temperatura < setpoint - histerese) resistencia = true;
-    if (temperatura > setpoint + histerese) resistencia = false;
+  } 
+  else {
+
+    if (setpoint > temperatura + histerese) {
+      resistencia = true;
+    }
+
+    if (setpoint <= temperatura) {
+      resistencia = false;
+    }
   }
+
   digitalWrite(LED_PIN, resistencia);
-}
-
-// ========= FUNÇÃO: ENVIO DE DADOS =========
-void enviarTelemetria() {
-  Serial.println("------------ STATUS DO FORNO ------------");
-  Serial.print("Temperatura Atual: "); Serial.print(temperatura); Serial.println(" °C");
-  Serial.print("Setpoint: ");          Serial.print(setpoint);    Serial.println(" °C");
-  Serial.print("Forno Ligado: ");      Serial.println(fornoLigado ? "SIM" : "NAO");
-  Serial.print("Resistencia Ativa: "); Serial.println(resistencia ? "SIM" : "NAO");
-  Serial.println("------------------------------------------\n");
-
-  httpEnviarTelemetria((int)temperatura, (int)setpoint, fornoLigado, resistencia);
 }
 
 // ========= SETUP =========
@@ -62,7 +70,6 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(BTN_PIN, INPUT_PULLUP);
 
-  // TFT
   tftBegin();
   tftShowBootScreen1();
   delay(2000);
@@ -70,45 +77,53 @@ void setup() {
   delay(2000);
   tftShowReadyScreen();
 
-  // WiFi + HTTP
   wifiInit(ssid, password);
-  httpInit();
+  mqttInit();
 }
 
 // ========= LOOP =========
 void loop() {
+
+  mqttLoop();
+
+  unsigned long tempoAtual = millis();
+
   bool estadoAtualBotao = digitalRead(BTN_PIN);
 
   if (estadoAtualBotao == LOW && estadoAnteriorBotao == HIGH) {
     fornoLigado = !fornoLigado;
 
+    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
+
     if (fornoLigado) {
       Serial.println("SISTEMA LIGADO");
     } else {
       Serial.println("SISTEMA DESLIGADO");
-      enviarTelemetria();
     }
-    delay(150);
+
+    delay(50);
   }
+
   estadoAnteriorBotao = estadoAtualBotao;
 
   temperatura = lerTemperatura();
-  delay(1500);
+  int leituraPot = analogRead(POT_PIN);
 
-  setpoint = map(analogRead(POT_PIN), 0, 4095, 50, 250);
+  if (leituraPot < 100) { 
+    setpoint = 0; 
+  } else {
+    setpoint = map(leituraPot, 0, 4095, 0, 250);
+  }
+
   controlarForno();
 
-  unsigned long tempoAtual = millis();
-
-  // TFT 1 Hz
   if (tempoAtual - lastTft >= 1000) {
     lastTft = tempoAtual;
     tftUpdateStatus((int)temperatura, (int)setpoint, fornoLigado, resistencia, wifiConnected());
   }
 
-  // Envio periódico (quando ligado)
-  if (fornoLigado && (tempoAtual - ultimoEnvio >= intervalo)) {
+  if (tempoAtual - ultimoEnvio >= intervalo) {
     ultimoEnvio = tempoAtual;
-    enviarTelemetria();
+    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
   }
 }
