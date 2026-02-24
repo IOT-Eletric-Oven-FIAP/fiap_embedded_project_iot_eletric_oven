@@ -1,129 +1,119 @@
+#include <Arduino.h>
+#include <math.h> // Essencial para a função log() do NTC
 #include "wifi_con.h"
 #include "mqtt.h"
 #include "tft.h"
 
-// ========= CONFIGURAÇÕES DE REDE =========
+// Garante que o compilador encontre as funções de WiFi
+extern void wifiInit(const char* ssid, const char* password);
+extern bool wifiConnected();
+
 const char* ssid = "Wokwi-GUEST";
 const char* password = "";
 
-// ========= DEFINIÇÃO DOS PINOS (HARDWARE) =========
-#define NTC_PIN 12
-#define POT_PIN 1
+// ========= DEFINIÇÃO DOS PINOS =========
+#define NTC_PIN 5   // NTC agora no pino 5
+#define POT_PIN 6   // Potenciômetro no pino 6
 #define LED_PIN 14
 #define BTN_PIN 4
 
-// ========= VARIÁVEIS DE CONTROLE DO SISTEMA =========
 float temperatura = 0;
 float setpoint = 180;
 bool fornoLigado = false;
-bool resistencia = false;
+bool resistenciaAtiva = false;
 float histerese = 2.0;
 
-// ========= VARIÁVEIS DE TEMPO E ESTADO =========
 unsigned long ultimoEnvio = 0;
 const long intervalo = 2000;
 bool estadoAnteriorBotao = HIGH;
-
-// ====== TFT timing (1 Hz) ======
 unsigned long lastTft = 0;
 
-// ========= FUNÇÃO: LEITURA DOS SENSORES =========
-float lerTemperatura() {
-  
-  static float tempSimulada = 25.0;
-
-  if (resistencia) {
-    tempSimulada += 0.5;
-  } else {
-    tempSimulada -= 0.2;
+int lerSensorComFiltro(int pino) {
+  long soma = 0;
+  for (int i = 0; i < 10; i++) {
+    soma += analogRead(pino);
+    delay(5);
   }
-
-  if (tempSimulada < 20) tempSimulada = 20;
-  if (tempSimulada > 300) tempSimulada = 300;
-
-  return tempSimulada;
+  return soma / 10;
 }
 
-// ========= FUNÇÃO: LÓGICA DO TERMOSTATO =========
 void controlarForno() {
-  if (!fornoLigado || setpoint == 0) {
-    resistencia = false;
-  } 
-  else {
-
-    if (setpoint > temperatura + histerese) {
-      resistencia = true;
-    }
-
-    if (setpoint <= temperatura) {
-      resistencia = false;
+  if (!fornoLigado) {
+    resistenciaAtiva = false;
+  } else {
+    if (temperatura < (setpoint - histerese)) {
+      resistenciaAtiva = true;
+    } else if (temperatura >= setpoint) {
+      resistenciaAtiva = false;
     }
   }
-
-  digitalWrite(LED_PIN, resistencia);
+  digitalWrite(LED_PIN, resistenciaAtiva ? HIGH : LOW);
 }
 
-// ========= SETUP =========
 void setup() {
   Serial.begin(115200);
-
   pinMode(LED_PIN, OUTPUT);
   pinMode(BTN_PIN, INPUT_PULLUP);
+  pinMode(POT_PIN, INPUT);
+  pinMode(NTC_PIN, INPUT);
 
-  tftBegin();
-  tftShowBootScreen1();
-  delay(2000);
-  tftShowBootScreen2();
-  delay(2000);
-  tftShowReadyScreen();
+  // Animação de Boot
+  tftBegin();               
+  tftShowBootScreen1(); 
+  delay(3000);          
+  tftShowBootScreen2(); 
+  delay(3000);          
+  tftShowReadyScreen(); 
+  delay(1000);
 
-  wifiInit(ssid, password);
-  mqttInit();
+  wifiInit(ssid, password); 
+  mqttInit();               
+  
+  Serial.println("Forno IoT Pronto!");
+  lastTft = millis(); 
 }
 
-// ========= LOOP =========
 void loop() {
-
-  mqttLoop();
-
-  unsigned long tempoAtual = millis();
-
   bool estadoAtualBotao = digitalRead(BTN_PIN);
-
   if (estadoAtualBotao == LOW && estadoAnteriorBotao == HIGH) {
     fornoLigado = !fornoLigado;
-
-    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
-
-    if (fornoLigado) {
-      Serial.println("SISTEMA LIGADO");
-    } else {
-      Serial.println("SISTEMA DESLIGADO");
-    }
-
+    Serial.println(fornoLigado ? "SISTEMA LIGADO" : "SISTEMA DESLIGADO");
     delay(50);
   }
-
   estadoAnteriorBotao = estadoAtualBotao;
 
-  temperatura = lerTemperatura();
-  int leituraPot = analogRead(POT_PIN);
+  // 1. LEITURA DO SETPOINT
+  int leituraPot = lerSensorComFiltro(POT_PIN);
+  setpoint = map(leituraPot, 0, 4095, 20, 300); 
 
-  if (leituraPot < 100) { 
-    setpoint = 0; 
-  } else {
-    setpoint = map(leituraPot, 0, 4095, 0, 250);
+  // 2. LEITURA DO NTC COM A ESCALA MAPEADA
+  int leituraNTC = lerSensorComFiltro(NTC_PIN);
+  if (leituraNTC > 0 && leituraNTC < 4095) {
+    float rNTC = 10000.0 / (4095.0 / leituraNTC - 1.0);
+    float temperaturaK = 1.0 / (1.0 / 298.15 + (1.0 / 3950.0) * log(rNTC / 10000.0));
+    
+    // Descobre qual é a temperatura no Wokwi (-24 a 80)
+    float tempWokwi = temperaturaK - 273.15; 
+    
+    // A MÁGICA AQUI: Converte a escala do Wokwi para a escala do Forno (20 a 300)
+    temperatura = map(tempWokwi, -24, 80, 20, 300);
+    
+    // Travas de segurança para o display não passar dos limites
+    if (temperatura < 20) temperatura = 20;
+    if (temperatura > 300) temperatura = 300;
   }
 
   controlarForno();
 
-  if (tempoAtual - lastTft >= 1000) {
-    lastTft = tempoAtual;
-    tftUpdateStatus((int)temperatura, (int)setpoint, fornoLigado, resistencia, wifiConnected());
+  if (millis() - lastTft > 1000) {
+    tftUpdateStatus((int)temperatura, (int)setpoint, fornoLigado, resistenciaAtiva, wifiConnected());
+    lastTft = millis();
   }
 
-  if (tempoAtual - ultimoEnvio >= intervalo) {
-    ultimoEnvio = tempoAtual;
-    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistencia);
+  if (millis() - ultimoEnvio > intervalo) {
+    mqttPublishStatus(temperatura, setpoint, fornoLigado, resistenciaAtiva); 
+    ultimoEnvio = millis();
   }
+
+  mqttLoop();
 }

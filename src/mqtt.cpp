@@ -10,11 +10,8 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 void mqttReconnect() {
-
   if (client.connected()) return;
-
   Serial.print("Conectando MQTT... ");
-
   if (client.connect("ESP32_Forno_EquipeX")) {
     Serial.println("MQTT conectado!");
   } else {
@@ -28,23 +25,19 @@ void mqttInit() {
 }
 
 void mqttLoop() {
-
   if (!client.connected()) {
     mqttReconnect();
   }
-
   client.loop();
 }
 
 void mqttPublishStatus(float temp, float sp, bool forno, bool res) {
-
   if (!client.connected()) {
     Serial.println("MQTT nao conectado, nao publicou.");
     return;
   }
 
   char payload[200];
-
   snprintf(payload, sizeof(payload),
     "{"
     "\"temperatura\": %.2f,"
@@ -52,14 +45,10 @@ void mqttPublishStatus(float temp, float sp, bool forno, bool res) {
     "\"forno\": %s,"
     "\"resistencia\": %s"
     "}",
-    temp,
-    sp,
-    forno ? "true" : "false",
-    res ? "true" : "false"
+    temp, sp, forno ? "true" : "false", res ? "true" : "false"
   );
 
   client.publish(MQTT_TOPIC, payload);
-
   Serial.print("MQTT Publicado: ");
   Serial.println(payload);
 }

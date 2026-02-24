@@ -1,7 +1,7 @@
 {
   "version": 1,
   "author": "Equipe X",
-    "editor": "wokwi",
+  "editor": "wokwi",
   "parts": [
     { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": -0.18, "left": -53.03, "attrs": {} },
     {
@@ -47,7 +47,6 @@
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
-    [ "lcd:K", "esp:GND.4", "black", [ "v0" ] ],
     [ "lcd1:CS", "esp:42", "cyan", [ "v0" ] ],
     [ "lcd1:RST", "esp:41", "magenta", [ "v0" ] ],
     [ "esp:40", "lcd1:D/C", "purple", [ "h0" ] ],
@@ -58,16 +57,20 @@
     [ "esp:36", "lcd1:MISO", "green", [ "h0" ] ],
     [ "esp:3V3.1", "lcd1:LED", "gold", [ "v0", "h-9.65", "v249.6", "h105.6", "v-153.6" ] ],
     [ "btn4:1.l", "esp:4", "blue", [ "v0" ] ],
+    
     [ "r1:2", "esp:14", "blue", [ "v0" ] ],
-    [ "r1:1", "led1:C", "blue", [ "h-9.6", "v-9.6" ] ],
-    [ "led1:A", "esp:GND.1", "black", [ "v0" ] ],
+    [ "r1:1", "led1:A", "blue", [ "h-9.6", "v-9.6" ] ],
+    [ "led1:C", "esp:GND.1", "black", [ "v0" ] ],
+    
     [ "pot1:VCC", "esp:5V", "red", [ "v0" ] ],
     [ "pot1:GND", "esp:GND.1", "black", [ "v0" ] ],
     [ "ntc1:GND", "esp:GND.1", "black", [ "v0" ] ],
     [ "ntc1:VCC", "esp:5V", "red", [ "v0" ] ],
-    [ "ntc1:OUT", "esp:11", "blue", [ "v0" ] ],
-    [ "btn4:2.r", "esp:GND.2", "green", [ "v-20", "h0.4" ] ],
-    [ "pot1:SIG", "esp:1", "green", [ "v28.8", "h47.6", "v-182.4", "h115.2", "v67.2" ] ]
+    
+    [ "ntc1:OUT", "esp:5", "blue", [ "v0" ] ],
+    [ "pot1:SIG", "esp:6", "green", [ "v28.8", "h47.6", "v-182.4", "h115.2", "v67.2" ] ],
+    
+    [ "btn4:2.r", "esp:GND.2", "green", [ "v-20", "h0.4" ] ]
   ],
   "dependencies": {}
 }
