@@ -288,8 +288,10 @@ Através desse processo torna-se possível a implementação de um dashboard par
 
 <div align="center">
 
-| **Imagens do dashboard em operação** |
+| **Imagens do dashboard em operação e fluxo do gateway** |
 | :--- |
-|![dash_1](images/dash_ubidots.png)|
+|![dash_1](images/dash_ubidots.png)|Dashboard Ubidots|
+|![dash_2](images/dash_thingspeak.png)|Dashboard ThingSpeak|
+|![dash_3](images/nodeRED.png)|Fluxo do Node-RED|
 
 ---
