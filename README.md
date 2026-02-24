@@ -45,7 +45,6 @@ O sistema simula um **forno com conectividade IoT**. O ESP32:
 3. Com o forno habilitado pelo **botão**, calcula a saída e aciona o **LED** (representando a resistência).
 4. Publica periodicamente os dados via MQTT (ex.: temperatura, referência, estado do forno e saída).
 5. Exibe informações no **display** (a integrar no circuito).
-6. Hospeda um **Servidor Web Local** na porta 80, permitindo visualização da interface simulada e dos dados em tempo real na rede de borda.
 
 ## Índice:
 
@@ -274,7 +273,16 @@ Essa é a representação visual das conexões:
 
 <div align="justify">
 
-## 6. Interação ao Thingspeak:
+## 6. Arquitetura de Conectividade
+
+Para atender aos requisitos de desempenho e integração, a arquitetura do projeto utiliza uma abordagem híbrida de conectividade (Edge-to-Gateway-to-Cloud):
+
+1. **Protocolo Leve na Borda (MQTT):** O microcontrolador ESP32 publica as telemetrias e status utilizando MQTT.
+2. **Integração Web (HTTP/HTTPS REST):** Um Gateway IoT em nuvem (Node-RED) foi configurado para assinar os tópicos MQTT e atuar como ponte para as plataformas IoT
+
+Para exibição dos dados coletados, as plataformas IoT selecionadas foram: Ubidots e ThingSpeak.
+
+Visto que cada plataforma IoT pode ter um modo de recebimento e formato de dados de entrada, foi utilizado uma instância do Node-RED para fazer a centralização, formatação e envio dos dados para as respectivas plataformas. Desse modo a saída de dados do microcontrolador mantem-se uniformizada, e cada implementação de integração pode ser feita diretamente no Node-RED.
 
 Através desse processo torna-se possível a implementação de um dashboard para montiramento das grandezas:
 
@@ -282,17 +290,6 @@ Através desse processo torna-se possível a implementação de um dashboard par
 
 | **Imagens do dashboard em operação** |
 | :--- |
-|![dash_1](images/dash_1.png)|
+|![dash_1](images/dash_ubidots.png)|
 
 ---
-
-## 7. Arquitetura de Conectividade, Segurança e Compliance
-
-Para atender aos requisitos de desempenho e integração web, a arquitetura do projeto utiliza uma abordagem híbrida de conectividade (Edge-to-Gateway-to-Cloud):
-
-1. **Protocolo Leve na Borda (MQTT):** O microcontrolador ESP32 publica as telemetrias e status utilizando MQTT (via HiveMQ/Mosquitto). Isso otimiza o consumo de memória e banda do dispositivo físico.
-2. **Integração Web (HTTP/HTTPS REST):** Um Gateway IoT em nuvem (Node-RED) foi configurado para assinar os tópicos MQTT e atuar como ponte. O Node-RED realiza o envio pesado de dados através de requisições **POST via HTTP/HTTPS (REST)** para os *endpoints* das plataformas ThingSpeak e Ubidots, cumprindo plenamente a exigência de integração web estipulada no projeto.
-
-**Segurança e Compliance:**
-* **Isolamento de Credenciais:** As chaves de acesso sensíveis (Write API Key do ThingSpeak e o Token X-Auth do Ubidots) não ficam expostas no código fonte do firmware (C++). Elas estão seguras e encapsuladas exclusivamente no Gateway Node-RED.
-* **Processamento Local (Borda):** O firmware do equipamento não é um mero repassador de dados. Ele aplica lógicas ativas de proteção e processamento local: **Filtragem de ruído** (Média Móvel nas leituras analógicas) e **Histerese/Thresholds** (controle rigoroso de acionamento da resistência elétrica, garantindo operabilidade e segurança física do forno antes mesmo de os dados irem para a nuvem).
