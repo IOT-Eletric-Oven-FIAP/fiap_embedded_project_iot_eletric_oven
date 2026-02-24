@@ -42,10 +42,10 @@ void mqttPublishStatus(float temp, float sp, bool forno, bool res) {
     "{"
     "\"temperatura\": %.2f,"
     "\"setpoint\": %.2f,"
-    "\"forno\": %s,"
-    "\"resistencia\": %s"
+    "\"forno\": %d,"
+    "\"resistencia\": %d"
     "}",
-    temp, sp, forno ? "true" : "false", res ? "true" : "false"
+    temp, sp, forno ? 1 : 0, res ? 1 : 0
   );
 
   client.publish(MQTT_TOPIC, payload);
